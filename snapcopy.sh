@@ -1,8 +1,8 @@
 #!/system/bin/sh
 echo "DO NOT EXIT BEFORE Done MESSAGE IS DISPLAYED"
 echo Copying Files
-cp -p -n /data/data/com.snapchat.android/files/file_manager/chat_snap/*.{0,1,2} /storage/emulated/0/snapcopy/temp
-cp -p -n "${0%/*}/temp/" "${0%/*}"
+cp -p -n /data/data/com.snapchat.android/files/file_manager/chat_snap/*.{0,1,2} "${0%/*}/temp/"
+cp -p -n "${0%/*}/temp/*" "${0%/*}"
 cd "${0%/*}"
 echo Deleting Useless files
 find . -type 'f' -size -100c -delete
