@@ -22,3 +22,5 @@ done
 for file in *.1; do mv "$file" "${file/.1/.mp4}"; done
 for file in *.2; do mv "$file" "${file/.2/.png}"; done
 echo Done
+
+#ffmpeg -y -i input.mp4 -i image.png -filter_complex "[1:v][0:v]scale2ref=iw:ih[ovr][base];[base][ovr]overlay[v]" -map [v] -map 0:a? -ac 2 output.mp4
