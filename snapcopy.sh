@@ -4,7 +4,7 @@ echo Copying Files
 cp -p -n /data/data/com.snapchat.android/files/file_manager/chat_snap/*.{0,1,2} "${0%/*}/temp/"
 cp -p -n -r "${0%/*}/temp/." "${0%/*}"
 cd "${0%/*}"
-echo Deleting Useless files
+echo Deleting Useless files&> /dev/null
 find . -type 'f' -size -100c -delete
 echo Renaming files
 for f in *.0; do 
@@ -19,8 +19,12 @@ else
     mv "$f" "${f/.0/.mp4}"
 fi
 done
+echo Merging files
+for f in *.2; do 
+input="${f:0:-2}"
+ffmpeg -y -i "${input}.1" -i "${input}.2" -filter_complex "[1:v][0:v]scale2ref=iw:ih[ovr][base];[base][ovr]overlay[v]" -map [v] -map 0:a? -ac 2 "${input}.mp4" &> /dev/null
+done 
 for file in *.1; do mv "$file" "${file/.1/.mp4}"; done
-for file in *.2; do mv "$file" "${file/.2/.png}"; done
 echo Done
 
 #ffmpeg -y -i input.mp4 -i image.png -filter_complex "[1:v][0:v]scale2ref=iw:ih[ovr][base];[base][ovr]overlay[v]" -map [v] -map 0:a? -ac 2 output.mp4
