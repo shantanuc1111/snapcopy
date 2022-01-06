@@ -2,16 +2,19 @@
 echo "DO NOT EXIT BEFORE Done MESSAGE IS DISPLAYED"
 echo Copying Files
 cp -p -n /data/data/com.snapchat.android/files/file_manager/chat_snap/*.{0,1,2} "${0%/*}/temp/"
-cp -p -n "${0%/*}/temp/*" "${0%/*}"
+cp -p -n "${0%/*}/temp/." "${0%/*}"
 cd "${0%/*}"
 echo Deleting Useless files
 find . -type 'f' -size -100c -delete
 echo Renaming files
 for f in *.0; do 
 ext=$(file -b "$f")
-if [ "${ext:(4)}" == "JPEG" ]
+if [ "${ext:0:4}" == "JPEG" ]
 then 
     mv "$f" "${f/.0/.jpg}"
+elif [ "${ext:0:4}" == "PNG " ]
+then 
+     mv "$f" "${f/.0/.png}"
 else 
     mv "$f" "${f/.0/.mp4}"
 fi
